@@ -1,0 +1,18 @@
+if (score >=90){
+    console.log('优秀');
+}else if (score >= 60){
+    console.log('及格');
+}else{
+    console.log('不及格');
+}
+
+switch (grade) {
+    case 'A':
+        console.log('90以上');
+        break;
+    case 'B'
+    console.log('80以上');
+        break
+    default:
+        console.log('其他');
+}
