@@ -28,3 +28,36 @@ const avgAmount = (list) => {
 
 const biggestExpense = (list) =>
   list.reduce((max, r) => (r.amount > max.amount ? r : max), list[0])
+
+const categoryTotals = (list) => {
+  const result = {};
+  list.forEach(r => {
+    result[r.category] = (result[r.category] || 0) + r.amount;
+  });
+  return result;
+};
+
+
+const report = (list) => {
+  const valid = cleanRecords(list);
+  if (valid.length === 0) {
+    return '没有有效记账记录';
+  }
+  const cats = categoryTotals(valid);
+  const catText = Object.keys(cats)
+    .map(cat => `${cat} ${cats[cat].toFixed(2)}元`)
+    .join('，');
+  return `有效记录${valid.length}条（已过滤${list.length - valid.length}条非法记录）
+总支出：${totalAmount(valid).toFixed(2)}元
+平均单笔：${avgAmount(valid)}元
+最大单笔：${biggestExpense(valid).name} ${biggestExpense(valid).amount}元
+分类汇总：${catText}`;
+};
+
+
+try {
+  console.log('清洗后记录：', cleanRecords(records));
+  console.log(report(records));
+} catch (err) {
+  console.error('报告生成失败:', err.message);
+}
